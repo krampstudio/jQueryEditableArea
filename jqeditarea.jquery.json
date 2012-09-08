@@ -1,0 +1,22 @@
+{
+    "name"          : "jqeditarea",
+    "title"         : "jQuery Editable Area Plugin",
+    "description"   : "A jQuery plugin that enables you to edit web page blocks",
+    "version"       : "0.0.1",
+    "homepage"      : "https://github.com/krampstudio/jQueryEditableArea",
+    "keywords"      : ["editor", "inline edition"],
+    "author": {
+        "name"  : "Bertrand Chevrier",
+        "email" : "chevrier.bertrand@gmail.com",
+        "url"   : "https://github.com/krampstudio/"
+    },
+    "licenses": [{
+        "type": "GPL",
+        "url" : "http://www.gnu.org/licenses/gpl-3.0.txt"
+    }],
+    "bugs"  : "https://github.com/krampstudio/jQueryEditbaleArea/issues",
+    "dependencies": {
+        "jquery"   : ">=1.7",
+        "jwysiwyg" : ""
+    }
+}

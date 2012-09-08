@@ -1,0 +1,27 @@
+{
+    "name" : "jQueryEditableArea",
+    "description"   : "",
+    "version"       : "0.0.1",
+    "homepage"      : "https://github.com/krampstudio/jQueryEditableArea",
+    "author": {
+        "name"  : "Bertrand Chevrier",
+        "email" : "chevrier.bertrand@gmail.com",
+        "url"   : "https://github.com/krampstudio"
+    },
+    "licenses": [{
+        "type": "GPL",
+        "url" : "http://www.gnu.org/licenses/gpl-3.0.txt"
+      }
+    ],
+    "repository": {
+        "type" : "git",
+        "url"  : "git://github.com/krampstudio/jQueryEditableArea"
+    },
+    "dependencies": {
+        "jquery"   : ">=1.7"
+    },
+    "devDependencies": {
+        "grunt" : "0.3.x",
+        "qunit" : "1.9.x"
+    }
+}
