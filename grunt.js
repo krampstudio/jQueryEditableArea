@@ -3,14 +3,15 @@ module.exports = function(grunt){
 		pkg: '<json:package.json>',
         meta: {
             banner: '/**\n'+
+                    ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n' +
 					' * <%= pkg.name %> - v<%= pkg.version %> \n' +
 					' * @author <%=pkg.author.name%> <<%=pkg.author.email%>>\n' +
-					' * @license <%=pkg.licenses[0].url%>\n'+
+					' * @license <%= _.pluck(pkg.licenses, "url").join(", ")\n'+
                     ' */'
         },
 		min : {
 			dist : {
-				src: ['src/jquery.editablearea.js', 'src/jquery.removeablearea.js'],
+				src: 'src/jquery.editablearea.js',
 				dest: 'jquery.<%=pkg.name%>.min.js'
 			}
 		},
@@ -24,4 +25,5 @@ module.exports = function(grunt){
 			all : ['test/*.html']
 		}
 	});
+    grunt.registerTask('default', 'min concat');
 };

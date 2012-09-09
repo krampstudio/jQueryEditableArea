@@ -4,10 +4,10 @@
     var EditableArea = {
         _opts : {
             save : {
-                label : 'Valider'
+                label : 'Save'
             },
             cancel : {
-                label : 'Annuler'
+                label : 'Cancel'
             },
 			cssClass : 'editable'
         },
@@ -51,7 +51,7 @@
                             baseValue = $elt.text();
                             $editable.val(baseValue)
                                     .attr('id', id + '_edit')
-                                    .width(parseInt($elt.width(), 10) - 20 + 'px');
+                                    .width(parseInt($elt.width(), 10) + 'px');
                             $elt.empty().append($editable);
                         }
                         else{
@@ -59,7 +59,7 @@
                             baseValue = $elt.html();
                             $editable.val(baseValue)
                                     .attr('id', id + '_edit')
-                                    .width(parseInt($elt.width(), 10) - 20 + 'px');
+                                    .width(parseInt($elt.width(), 10) + 'px');
                             $elt.empty().append($editable);
                             $editable.wysiwyg();
                         }
@@ -73,7 +73,7 @@
                         var saveCtrlId = id + '_edit_control_save',
                             cancelCtrlId = id + '_edit_control_cancel';
                         var $controlBox = $("<div class='editablearea-control-box'>" +
-                                                "<a id='" + cancelCtrlId + "' href='#'>"+opts.cancel.label+"</a>" +
+                                                "<a id='" + cancelCtrlId + "' href='#'>"+opts.cancel.label+"</a> " +
                                                 "<a id='" + saveCtrlId + "' href='#'>"+opts.save.label+"</a>" +
                                             "</div>");
                         $elt.append($controlBox);
