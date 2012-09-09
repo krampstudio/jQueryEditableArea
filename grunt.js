@@ -12,13 +12,13 @@ module.exports = function(grunt){
 		min : {
 			dist : {
 				src: 'src/jquery.editablearea.js',
-				dest: 'jquery.<%=pkg.name%>.min.js'
+				dest: 'jquery.editablearea.min.js'
 			}
 		},
 		concat : {
 			dist : {
-				src : [ '<banner>', 'jquery.<%=pkg.name%>.min.js'],
-				dest: 'jquery.<%=pkg.name%>.min.js'
+				src : [ '<banner>', 'jquery.editablearea.min.js'],
+				dest: 'jquery.editablearea.min.js'
 			}
 		},
 		qunit : {
