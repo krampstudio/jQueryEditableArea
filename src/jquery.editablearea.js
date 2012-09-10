@@ -9,13 +9,48 @@
             cancel : {
                 label : 'Cancel'
             },
-			cssClass : 'editable'
+			cssClass 	: 'editable',
+			hoverClass	: 'editablearea-hover',
+			ctrlBoxClass: 'editablearea-control-box',
+			exclusive	: false	//nyi
         },
+		_editor : {
+			script : '../lib/jwysiwyg/jquery.wysiwyg.js',
+			stylesheet : '../lib/jwysiwyg/jquery.wysiwyg.css',
+			createEditor : function($elt){
+				$elt.wysiwyg();
+			},
+			initialized : false
+		},
         _editing : [],
         _isEditing: function(id){
             return ($.inArray(id, EditableArea._editing) > -1);
         },
-        setupArea: function(options){      
+		setupEditor : function(){
+			if(this._editor && typeof this._editor == 'object'){
+				var editor = this._editor;
+				//old school dependencies loading
+				if(editor.stylesheet){
+					var stylesheet = $("<link rel='stylesheet' type='text/css' href='+"editor.stylesheet"+' />");
+					$('head').append(stylesheet);
+				}
+				if(editor.script){
+					$.getScript(editor.script, function onScriptLoaded(){
+						editor.initialized = true;
+					});
+				} else {
+					//if there is no script option defined, we guess it doesn't need one
+					editor.initialized = true;
+				}
+			}
+		},
+        setupArea: function(options){
+
+			//initialize the editor only once
+			if(EditableArea._editor && !EditableArea._editor.initialized){
+				EditableArea.setupEditor();      
+			}
+
             var opts = $.extend(true, {}, EditableArea._opts, options);
             return this.each(function() {
                 var $elt = $(this);
@@ -72,7 +107,7 @@
                         }
                         var saveCtrlId = id + '_edit_control_save',
                             cancelCtrlId = id + '_edit_control_cancel';
-                        var $controlBox = $("<div class='editablearea-control-box'>" +
+                        var $controlBox = $("<div class='"+opts.ctrlBoxClass+"'>" +
                                                 "<a id='" + cancelCtrlId + "' href='#'>"+opts.cancel.label+"</a> " +
                                                 "<a id='" + saveCtrlId + "' href='#'>"+opts.save.label+"</a>" +
                                             "</div>");
@@ -83,7 +118,7 @@
                         $('#' + saveCtrlId).click(function(){
                             var id = $(this).attr('id').replace('_edit_control_save', '');
                             var $elt = $('#' + id);
-                            $elt.trigger('save.editableArea', $elt.editableArea('getValue'));
+                            $elt.trigger('save.editableArea', $elt.editableArea('getValues'));
                             $elt.trigger('close.editableArea');
                         });
                          $('#' + cancelCtrlId).click(function(){
@@ -115,7 +150,7 @@
                 }
             }); 
         },
-        getValue : function(){
+        getValues : function(){
             var values = [];
             this.each(function() {
                 var $elt = $(this);
@@ -147,6 +182,11 @@
         }
     };
 
+	$.editableArea = {
+		setEditor : function(){
+			
+		}
+	};
     $.fn.editableArea = function( method ) {        
         if ( EditableArea[method] ) {
             if(/^_/.test(method)){

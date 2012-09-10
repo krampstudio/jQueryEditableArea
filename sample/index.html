@@ -13,6 +13,9 @@
 				$('.editable').editableArea({
                     'hoverClass' : 'hover-edit'			
 				});
+				$('#test').click(function(){
+					console.log($('.editable').editableArea('getValues'));
+				});
 			});
 		</script>
         <style>
@@ -26,6 +29,7 @@
 	<body>
 		<h1>jQuery Editable area plugin plugin</h1>
         <p>Click to edit any content on the frame below</p>
+		<a id="test"  href="#">test</a>
 		<div id="content" >
             <span id="editable1" class='editable'>Lorem ipsum dolor sit amet</span>
             <hr />
