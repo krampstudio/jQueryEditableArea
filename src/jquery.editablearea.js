@@ -20,7 +20,7 @@
 			createEditor : function($elt){
 				$elt.wysiwyg();
 			},
-			initialized : false
+			_initialized : false
 		},
         _editing : [],
         _isEditing: function(id){
@@ -31,23 +31,23 @@
 				var editor = this._editor;
 				//old school dependencies loading
 				if(editor.stylesheet){
-					var stylesheet = $("<link rel='stylesheet' type='text/css' href='+"editor.stylesheet"+' />");
+					var stylesheet = $("<link rel='stylesheet' type='text/css' href='"+editor.stylesheet+"' />");
 					$('head').append(stylesheet);
 				}
 				if(editor.script){
 					$.getScript(editor.script, function onScriptLoaded(){
-						editor.initialized = true;
+						editor._initialized = true;
 					});
 				} else {
 					//if there is no script option defined, we guess it doesn't need one
-					editor.initialized = true;
+					editor._initialized = true;
 				}
 			}
 		},
         setupArea: function(options){
-
+			var editor = EditableArea._editor;
 			//initialize the editor only once
-			if(EditableArea._editor && !EditableArea._editor.initialized){
+			if(editor && !editor._initialized){
 				EditableArea.setupEditor();      
 			}
 
@@ -96,7 +96,9 @@
                                     .attr('id', id + '_edit')
                                     .width(parseInt($elt.width(), 10) + 'px');
                             $elt.empty().append($editable);
-                            $editable.wysiwyg();
+                			if(editor && typeof editor.createEditor === 'function'){
+				            	EditableArea._editor.createEditor($editable);
+							}
                         }
                         $elt.data('editableArea', {
                             type : type,
@@ -182,10 +184,9 @@
         }
     };
 
-	$.editableArea = {
-		setEditor : function(){
-			
-		}
+	$.editableArea = {};
+	$.editableArea.setUpEditor : function(options){
+		$.extend(EditableArea.editor, options);
 	};
     $.fn.editableArea = function( method ) {        
         if ( EditableArea[method] ) {

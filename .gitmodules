@@ -1,3 +1,6 @@
 [submodule "lib/jwysiwyg"]
 	path = lib/jwysiwyg
 	url = https://github.com/akzhan/jwysiwyg.git
+[submodule "sample/cleditor"]
+	path = sample/cleditor
+	url = https://github.com/cleditor/cleditor.git
