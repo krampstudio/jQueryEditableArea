@@ -185,7 +185,7 @@
     };
 
 	$.editableArea = {};
-	$.editableArea.setUpEditor : function(options){
+	$.editableArea.setUpEditor = function(options){
 		$.extend(EditableArea.editor, options);
 	};
     $.fn.editableArea = function( method ) {        

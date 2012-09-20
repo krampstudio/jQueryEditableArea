@@ -13,6 +13,10 @@
 				$('.editable').editableArea({
                     'hoverClass' : 'hover-edit'			
 				});
+				$('.editable').bind('save.editableArea', function(event, values){
+					
+					alert('Saving: ' + values);
+				});
 			});
 		</script>
         <style>
