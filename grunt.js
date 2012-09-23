@@ -23,6 +23,18 @@ module.exports = function(grunt){
 		},
 		qunit : {
 			all : ['test/*.html']
+		},
+		lint : {
+			files : ['src/*.js']
+		},
+		jshint : {
+			options: {
+				browser : true,
+				smarttabs : true
+			},
+			globals: {
+				jQuery : true
+			}
 		}
 	});
     grunt.registerTask('default', 'min concat');
