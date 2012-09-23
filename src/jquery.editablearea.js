@@ -20,7 +20,6 @@
  * @version $version$
  * @requires jquery >= 1.7
  */
-
 (function( $ ){
     "use strict";
     
@@ -32,7 +31,7 @@
             cancel : {
                 label : 'Cancel'
             },
-			cssClass 	: 'editable',
+			cssClass	: 'editable',
 			hoverClass	: 'editablearea-hover',
 			ctrlBoxClass: 'editablearea-control-box',
 			exclusive	: false	//nyi
@@ -52,15 +51,21 @@
 		setupEditor : function(){
 			if(this._editor && typeof this._editor == 'object'){
 				var editor = this._editor;
-				//old school dependencies loading
 				if(editor.stylesheet){
-					var stylesheet = $("<link rel='stylesheet' type='text/css' href='"+editor.stylesheet+"' />");
-					$('head').append(stylesheet);
+					EditableArea._loadScript(editor.stylesheet, function(err){
+						if(err){
+							$.error(err);	
+						}
+					});
 				}
 				if(editor.script){
-					$.getScript(editor.script, function onScriptLoaded(){
-						editor._initialized = true;
-					});
+					EditableArea._loadScript(editor.script, function(err){
+                        if(err){
+                            $.error(err);
+                        } else {
+							editor._initialized = true;
+						}
+                    }); 
 				} else {
 					//if there is no script option defined, we guess it doesn't need one
 					editor._initialized = true;
@@ -119,8 +124,8 @@
                                     .attr('id', id + '_edit')
                                     .width(parseInt($elt.width(), 10) + 'px');
                             $elt.empty().append($editable);
-                			if(editor && typeof editor.createEditor === 'function'){
-				            	EditableArea._editor.createEditor($editable);
+							if(editor && typeof editor.createEditor === 'function'){
+								EditableArea._editor.createEditor($editable);
 							}
                         }
                         $elt.data('editableArea', {
@@ -197,7 +202,7 @@
         },
         destroy : function(){
             this.each(function() {
-                var $elt = $(this); console.log('destroy')
+                var $elt = $(this);
                 if(EditableArea._isEditing($elt.attr('id'))){
                     var data = $elt.data('editableArea');
                     $elt.editableArea('closeArea', data.baseValue);
@@ -206,8 +211,42 @@
             });
         }
     };
+	
+
+	/**
+	 * Load a script dynamically
+	 * @param {String} the script path
+	 * @param {Function} callback(err)
+	 */
+	EditableArea._loadScript = function(script, callback){
+		if(location.protocol === 'file:'){
+			$.warn('Dynamic script loading is only supported on HTTP');
+		} else {
+			if(/\.css$/.test(script)){
+				$('head').append(
+					"<link rel='stylesheet' type='text/css' href='"+script+"' />"
+				);
+			}
+			if(/\.js$/.test(script)){
+				$.getScript(script)
+					.done(function getScriptDone(script, textStatus){
+						callback(null);
+					})
+					.fail(function getScriptFail(req, settings, exception){
+						callback(exception);
+					});
+			}
+		}
+	};
 
 	$.editableArea = {};
+	/**
+	 * Set up a different rich editor
+	 * @param {Object} options
+	 * @param {String} [options.script="../lib/jwysiwyg/jquery.wysiwyg.js"] the path to the rich editor script
+     * @param {String} [options.stylesheet="../lib/jwysiwyg/jquery.wysiwyg.css"] the path to the rich editor css
+     * @param [Function] [options.createEditor=function($elt){$elt.wysiwyg();}] the callback used to initialize the editor from the element ($elt). 
+	 */
 	$.editableArea.setUpEditor = function(options){
 		$.extend(EditableArea.editor, options);
 	};
@@ -224,5 +263,4 @@
             $.error( 'Method ' +  method + ' does not exist on jQuery.editableArea' );
         }    
     };
-
 })( jQuery );
