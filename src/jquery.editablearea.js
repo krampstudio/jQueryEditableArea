@@ -248,7 +248,7 @@
      * @param [Function] [options.createEditor=function($elt){$elt.wysiwyg();}] the callback used to initialize the editor from the element ($elt). 
 	 */
 	$.editableArea.setUpEditor = function(options){
-		$.extend(EditableArea.editor, options);
+		$.extend(EditableArea._editor, options);
 	};
     $.fn.editableArea = function( method ) {        
         if ( EditableArea[method] ) {
