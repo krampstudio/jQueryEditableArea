@@ -8,32 +8,51 @@
 	<script>
 	(function() {
 		var jquerySrc = "../lib/jquery.js",
-			plugin-nameSrc = "../src/jquery.plugin-name.js";
+			editableareaSrc = "../src/jquery.editablearea.js";
 		QUnit.config.urlConfig.push( "min" );
 		if ( QUnit.urlParams.min ) {
 			jquerySrc = "../lib/jquery.min.js";
-			infoBubbleSrc = "../jquery.plugin-name.min.js"
+			infoBubbleSrc = "../jquery.editablearea.min.js"
 		}
 		document.write( "<script src='" + jquerySrc + "'><\/script>" );
-		document.write( "<script src='" + plugin-nameSrc + "'><\/script>" );
+		document.write( "<script src='" + editableareaSrc + "'><\/script>" );
 	 })();
 	</script>
 </head>
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture">
+	<div id="target1">test</div>
   </div>
   <script>
 	module("presence checks");
-    	test("jQuery checks", function() {
+    test("jQuery checks", function() {
 		ok( (typeof jQuery != 'undefined'), "We expect jQuery to be available");
 		ok( (typeof $ == 'function'), "We expect the jQuery alias `$` is available"); 
 		ok( (typeof jQuery().jquery == 'string'), "We expect to be able to get the jQuery version");
     	equal(jQuery().jquery, "1.8.0", "We expect the jQuery version is 1.8.0");
 	});
 	test("plugin checks", function(){
-		ok( (typeof $.fn.pluginName == 'function'), "We expect the plugin is available");
+		ok( (typeof $.fn.editableArea == 'function'), "We expect the plugin is available");
 	});
+	module("editing checks");
+	asyncTest("simple editing", function(){
+        expect(3);
+        var $target = $('#target1', $('#qunit-fixture')),
+            content = 'test';
+
+        $target.editableArea();
+
+        $target.bind('open.editableArea', function(){
+            ok( $target.length == 1, "We expect to found the target using jQuery selector");
+
+			var data = $target.data('editableArea');
+           	ok( (typeof data == 'object'), "We expect there is data attached to the target");
+ 			equal(data.baseValue, "test", "We expect the plugin to get the target data");
+            start();
+        });
+		$target.trigger('click');
+    });
   </script>
 </body>
 </html>

@@ -145,6 +145,7 @@
                         if($.ui){   //check if jquery-ui is loaded
                             $('a', $controlBox).button();
                         }
+						$elt.trigger('open.editableArea');
                         $('#' + saveCtrlId).click(function(){
                             var id = $(this).attr('id').replace('_edit_control_save', '');
                             var $elt = $('#' + id);
@@ -160,6 +161,7 @@
                 .on('close.editableArea', function(){
                     $(this).editableArea('closeArea');
                 });
+				$elt.trigger('initialized.editableArea');
             });
         },
         closeArea : function(value){
@@ -220,7 +222,7 @@
 	 */
 	EditableArea._loadScript = function(script, callback){
 		if(location.protocol === 'file:'){
-			$.warn('Dynamic script loading is only supported on HTTP');
+			$.error('Dynamic script loading is only supported on HTTP');
 		} else {
 			if(/\.css$/.test(script)){
 				$('head').append(
